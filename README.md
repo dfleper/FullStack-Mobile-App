@@ -5,11 +5,18 @@
 
 **FullStack-Mobile-App**
 - Mobile project with React Native, Expo, Firebase (Authentication and RealTime Database) and third party API (News Api and Random User Generator).
+- Once the repository is cloned, we go to the terminal and type ```npm install```
+- You must take into account the path where you have cloned the repository.
 
 **FullStack-Mobile-App**
-- Proyecto móvil con React Native, Expo, Firebase ( Autenticación y Base de Datos en Tiempo Real) y API de terceros (News Api y Random User Generator). 
+- Proyecto móvil con React Native, Expo, Firebase ( Autenticación y Base de Datos en Tiempo Real) y API de terceros (News Api y Random User Generator).
+- Una vez clonado el repositorio vamos al terminal y tecleamos ```npm install```
+- Debe de tener en cuenta la ruta donde ha clonado el repositorio.
+  
 
 ## Video / Video
+
+- ### 🔊 Activate the Sound 🔊 Active el Sonido 🔊
 
 ## Screenshots / Pantallazos
 
