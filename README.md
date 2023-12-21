@@ -16,9 +16,16 @@
 
 ## Video / Video
 
+
+https://github.com/dfleper/FullStack-Mobile-App/assets/124105822/435cfd36-f8cf-4d10-850e-d141f9b73ebe
+
+
 - ### 🔊 Activate the Sound 🔊 Active el Sonido 🔊
 
 ## Screenshots / Pantallazos
+![001](https://github.com/dfleper/FullStack-Mobile-App/assets/124105822/9e5e5b2c-044a-4740-9759-e661e93363a4)
+![012](https://github.com/dfleper/FullStack-Mobile-App/assets/124105822/cf6fa84a-ded2-4802-b7fb-2d25af9fec8a)
+![014](https://github.com/dfleper/FullStack-Mobile-App/assets/124105822/8717f1a2-c3bb-4405-8ea8-59722545394d)
 
 ## Requirements / Requisitos
 #### 🛠 [Visual Studio Code](https://code.visualstudio.com/) 
