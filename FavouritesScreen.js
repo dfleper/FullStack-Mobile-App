@@ -19,40 +19,47 @@ const FavouritesScreen = () => {
   const userId = route.params?.userId || null;
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("userId Favourites:", userId);
-        if (userId) {
-          const db = getDatabase();
-          const favouritesRef = ref(db, `favoritos/${userId}`);
-
-          // Escuchamos cambios en la base de datos
-          onValue(favouritesRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-              // Convertimos el objeto en un array y ordenamos por ID
-              const favouritesArray = Object.values(data).sort(
-                (a, b) => a.id - b.id
-              );
-              setFavourites(favouritesArray);
-            } else {
-              setFavourites([]);
-            }
-            setLoading(false);
-          });
-        }
-      } catch (error) {
-        console.error("Error obteniendo el userId:", error);
+    try {
+      console.log("userId Favourites:", userId);
+      if (!userId) {
+        setFavourites([]);
         setLoading(false);
+        return undefined;
       }
-    };
 
-    fetchData();
+      const db = getDatabase();
+      const favouritesRef = ref(db, `favoritos/${userId}`);
+
+      // Escuchamos cambios en la base de datos
+      const unsubscribe = onValue(favouritesRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          // Convertimos el objeto en un array y ordenamos por ID
+          const favouritesArray = Object.values(data).sort(
+            (a, b) => a.id - b.id
+          );
+          setFavourites(favouritesArray);
+        } else {
+          setFavourites([]);
+        }
+        setLoading(false);
+      });
+
+      return () => unsubscribe();
+    } catch (error) {
+      console.error("Error obteniendo el userId:", error);
+      setLoading(false);
+      return undefined;
+    }
   }, [userId]);
 
   // Función para borrar un favorito por ID
   const deleteFavourite = async (id) => {
     try {
+      if (!userId) {
+        Alert.alert("¡Ha Ocurrido un Error!");
+        return;
+      }
       const db = getDatabase();
       const favouritesRef = ref(db, `favoritos/${userId}/${id}`);
 

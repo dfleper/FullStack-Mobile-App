@@ -17,16 +17,13 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getReactNativePersistence, initializeAuth } from "firebase/auth";
-import {
-  ReactNativeAsyncStorage,
-  AsyncStorage,
-} from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebaseConfig } from "./firebase-config";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 
 const app = initializeApp(firebaseConfig);
 const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+  persistence: getReactNativePersistence(AsyncStorage),
 });
 
 const uri = "https://ak.picdn.net/shutterstock/videos/1060308725/thumb/1.jpg";
@@ -44,8 +41,6 @@ function LoginScreen() {
       .then((userCredential) => {
         console.log("¡Cuenta creada exitosamente!");
         Alert.alert("¡Cuenta creada exitosamente!");
-        const user = userCredential.user;
-        console.log("Usuario:", user);
       })
       .catch((error) => {
         console.log("Error al crear la cuenta:", error.message);
@@ -59,7 +54,6 @@ function LoginScreen() {
         console.log("¡Inicio de sesión exitoso!");
         Alert.alert("¡Inicio de sesión exitoso!");
         const user = userCredential.user;
-        console.log("¡Bienvenido, " + user.email + "!");
         navigation.navigate("Home", { userId: user.uid });
       })
       .catch((error) => {
