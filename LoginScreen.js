@@ -14,17 +14,26 @@ import { useNavigation } from "@react-navigation/native";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  getAuth,
 } from "firebase/auth";
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import { getReactNativePersistence, initializeAuth } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebaseConfig } from "./firebase-config";
-import { getDatabase, ref, set, onValue } from "firebase/database";
 
-const app = initializeApp(firebaseConfig);
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),
-});
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = (() => {
+  try {
+    return initializeAuth(app, {
+      persistence: getReactNativePersistence(AsyncStorage),
+    });
+  } catch (error) {
+    if (error?.code === "auth/already-initialized") {
+      return getAuth(app);
+    }
+    throw error;
+  }
+})();
 
 const uri = "https://ak.picdn.net/shutterstock/videos/1060308725/thumb/1.jpg";
 const profilePicture = "https://randomuser.me/api/portraits/women/21.jpg";
@@ -37,7 +46,15 @@ function LoginScreen() {
   const navigation = useNavigation();
 
   const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+    const normalizedEmail = email.trim();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedEmail || !normalizedPassword) {
+      Alert.alert("Debes completar email y password.");
+      return;
+    }
+
+    createUserWithEmailAndPassword(auth, normalizedEmail, normalizedPassword)
       .then((userCredential) => {
         console.log("¡Cuenta creada exitosamente!");
         Alert.alert("¡Cuenta creada exitosamente!");
@@ -49,7 +66,15 @@ function LoginScreen() {
   };
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password)
+    const normalizedEmail = email.trim();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedEmail || !normalizedPassword) {
+      Alert.alert("Debes completar email y password.");
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, normalizedEmail, normalizedPassword)
       .then((userCredential) => {
         console.log("¡Inicio de sesión exitoso!");
         Alert.alert("¡Inicio de sesión exitoso!");
